@@ -1,0 +1,49 @@
+---
+title: "Weather Data Eexploration"
+output: html_notebook
+---
+R notebook for exploring the KNMI data from 2019 to 2021.
+
+Check the metadata at https://daggegevens.knmi.nl/klimatologie/daggegevens
+
+```{r load data}
+rm(list = ls())
+pacman::p_load(pacman, dplyr, GGally, ggplot2, ggthemes, ggvis, httr, lubridate, plotly, rio, rmarkdown, stringr, tidyr)
+we <- read.csv(file="weather_2019-2021.csv", header = T)
+head(we)
+```
+```{r check missing value}
+for (i in unique(we$STN))
+{
+  print(c(i,sum(is.na(we[we$STN == i,]))))
+}
+```
+The station with number of null less than 100: 235, 240, 249, 251, 260, 267, 269, 270, 273, 275, 279, 280, 290, 310, 319, 344, 348, 350, 370, 375, 377, 380. The map view of the list can be checked at https://goo.gl/maps/j9GSc5334Keiumy7A
+
+```{r select stations}
+sta.fine <- c(235, 240, 249, 251, 260, 267, 269, 270, 273, 275, 279, 280, 290, 310, 319, 344, 348, 350, 370, 375, 377, 380)
+we.sub <- we[we$STN %in% sta.fine,]
+# head(we.sub)
+unique(we.sub$STN)
+```
+```{r summarize the data}
+we.sub$STN <- as.factor(we.sub$STN)
+summary(we.sub)
+```
+```{r dist of FG: wind}
+# ggplot(we.sub) +
+#   geom_point(aes(x = STN, y= FG))
+plot(we.sub$STN, we.sub$FG)
+```
+```{r dist of TG: temperature}
+plot(we.sub$STN, we.sub$TG)
+```
+```{r dist of RH rainfall}
+plot(we.sub$STN, we.sub$RH)
+```
+```{r}
+plot(we.sub$STN, we.sub$VVN)
+```
+
+
+
