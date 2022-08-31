@@ -28,6 +28,7 @@ unique(we.sub$STN)
 ```
 ```{r summarize the data}
 we.sub$STN <- as.factor(we.sub$STN)
+we.sub$D <- as.Date(as.character(we.sub$YYYYMMDD), format = "%Y%m%d")
 summary(we.sub)
 ```
 ```{r dist of FG: wind}
@@ -36,7 +37,9 @@ summary(we.sub)
 plot(we.sub$STN, we.sub$FG)
 ```
 ```{r dist of TG: temperature}
-plot(we.sub$STN, we.sub$TG)
+# plot(we.sub$STN, we.sub$TG)
+we.sub.235 <- we.sub[we.sub$STN == "235",]
+plot(we.sub.235$D, we.sub.235$TG)
 ```
 ```{r dist of RH rainfall}
 plot(we.sub$STN, we.sub$RH)
